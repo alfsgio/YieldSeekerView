@@ -1,10 +1,11 @@
 import React from 'react';
-import { SafeAreaView, FlatList, View, StyleSheet } from 'react-native';
-import { DataModel } from '../models/Appartment';
+import { SafeAreaView, FlatList, StyleSheet, ViewStyle } from 'react-native';
+import { ToggleButton  } from 'react-native-paper';
 import CardComponent from '../components/CardComponent';
 
-const data : DataModel[] = [
+const data = [
     {
+      "index":"0",
       "city":"Antony",
       "postalCode":92160,
       "surfaceArea":23.0,
@@ -34,6 +35,7 @@ const data : DataModel[] = [
       "yield":1.11,
     },
     {
+      "index":"1",
       "city":"Colombes",
       "postalCode":92700,
       "surfaceArea":21.0,
@@ -64,6 +66,7 @@ const data : DataModel[] = [
       "yield":0.92,
     },
     {
+      "index":"2",
       "city":"Pontault-Combault",
       "postalCode":77340,
       "surfaceArea":27.0,
@@ -99,26 +102,61 @@ const data : DataModel[] = [
     },
 ];
 
+
 const MainScreen = () => {
 
-  const renderItem = ( {item} : {item: DataModel} ) => (
+  const renderItem = ( {item} ) => (
     <CardComponent appart = {item} />
   );
 
+  const [value, setValue] = React.useState('postalCode');
+  const changeSort = (sortValue) => {
+    switch(sortValue){
+      case 'yield':
+        data.sort( (a,b) => a.yield - b.yield);
+        break;
+      case 'city':
+        data.sort( (a,b) => a.postalCode - b.postalCode);
+        break;
+      case 'size':
+        data.sort( (a,b) => a.surfaceArea - b.surfaceArea);
+        break;
+      case 'score':
+        data.sort( (a,b) => b.score - a.score );
+        break;
+      default:
+        data.sort( (a,b) => a.postalCode - b.postalCode);
+        break;
+    }
+    
+    setValue(sortValue)
+  }
+
   return (
-    <SafeAreaView style= {style.container}>
+    <SafeAreaView style= {style.safearea}>
+        <ToggleButton.Row style= {style.safearea.togglerow} onValueChange={sortValue => changeSort(sortValue)} value={value}>
+            <ToggleButton icon="home-group-plus" value="yield" />
+            <ToggleButton icon="home-city" value="city" />
+            <ToggleButton icon="vector-square" value="size" />
+            <ToggleButton icon="card-account-details-star-outline" value="score" />
+        </ToggleButton.Row>
+
         <FlatList
           data = {data}
-          renderItem = {renderItem} 
+          renderItem = {renderItem}
+          keyExtractor={renderItem => renderItem.index}
         />
       </SafeAreaView >
   );
 }
 
 const style = StyleSheet.create({
-  container: {
-      flex: 1,
-      marginTop: 0,
+  safearea: {
+    flex: 1,
+    togglerow: {
+      justifyContent: 'center',
+      marginVertical: 10,
+    } as ViewStyle,
   },
 });
 
