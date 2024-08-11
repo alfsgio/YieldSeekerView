@@ -45,10 +45,10 @@ const DetailsScreen = ({ route }) => {
             </View>
             <Card.Content style={style.card.content}>
               <View style={style.card.content.bubbles}>
-                <BubbleItemComponent content={appart.yield} pos={null} type='yield' />
+                <BubbleItemComponent content={appart.yield.toFixed(2)} pos={null} type='yield' />
                 <BubbleItemComponent content={appart.score} pos={null} type='score'/>
                 <BubbleItemComponent content={appart.dpe} pos={null} type='dpe'/>
-                <BubbleItemComponent content={`${appart.surfaceArea}m²`} pos={null} type=''/>
+                <BubbleItemComponent content={`${appart.surfaceArea.toFixed()}m²`} pos={null} type=''/>
               </View>
 
               <DetailsItem style={style.card.content.detailsitem} title={'Prix'} body={`${appart.price} €`}/>
@@ -57,11 +57,20 @@ const DetailsScreen = ({ route }) => {
               <DetailsItem style={style.card.content.detailsitem} title={'Parking'} body={appart.parking.toString()}/>
               <DetailsItem style={style.card.content.detailsitem} title={'Loué'} body={appart.rented.toString()}/>
               <DetailsItem style={style.card.content.detailsitem} title={'Procédure'} body={appart.procedureInProgress.toString()}/>
-              <DetailsItem style={style.card.content.detailsitem} title={'Chauffage'} body={appart.heating}/>
-              <DetailsItem style={style.card.content.detailsitem} title={'Chauffage'} body={appart.heating}/>
-              <DetailsItem style={style.card.content.detailsitem} title={'Chauffage'} body={appart.heating}/>
-              <DetailsItem style={style.card.content.detailsitem} title={'Chauffage'} body={appart.heating}/>
-              <DetailsItem style={style.card.content.detailsitem} title={'Chauffage'} body={appart.heating}/>
+              
+              { appart.extraSpaces.map((extraSpace, index) => ( 
+                <DetailsItem key={index} style={style.card.content.detailsitem} title={`Extra spaces ${index+1}`} body={extraSpace}/>
+               )) }
+
+              { appart.conveniences.map((convenience, index) => ( 
+                <DetailsItem key={index} style={style.card.content.detailsitem} title={`Convenience ${index+1}`} body={convenience}/>
+               )) }
+              
+              <DetailsItem style={style.card.content.detailsitem} title={'Agence tax'} body={`${appart.agencyFeePercentage}€`}/>
+              <DetailsItem style={style.card.content.detailsitem} title={'Charges annuels'} body={`${appart.annualCondominiumFees}€`}/>
+              <DetailsItem style={style.card.content.detailsitem} title={'Prêt mensuel'} body={`${appart.monthlyLoan.toFixed(2)}€`}/>
+              <DetailsItem style={style.card.content.detailsitem} title={'Cout mensuel'} body={`${appart.monthlyCost.toFixed(2)}€`}/>
+              <DetailsItem style={style.card.content.detailsitem} title={'Loyer moyen'} body={`${appart.avgCityPrice.toFixed(2)}€`}/>
             </Card.Content>
         </Card>
       </View>

@@ -3,6 +3,7 @@ import { Avatar } from 'react-native-paper';
 
 const BubbleItemComponent = ( {content, pos, type} : {content : any, pos : any, type : string } ) => {
     const getColorYield = () => {
+        if (content > 10) return '#a9a9a9';     // Grey
         if (content > 1.3) return '#fa5050';    // Red
         if (content > 1.1) return '#faa450';    // Orange
         if (content > 0.9) return '#88d677';    // Green
@@ -45,13 +46,14 @@ const BubbleItemComponent = ( {content, pos, type} : {content : any, pos : any, 
             return {borderRadius: 10}
         }
     }
- 
-    const labelStyle = content.toString().length > 2 ? {fontSize: 13} : {fontSize: 15};
+
+    const contentString = content !== undefined && content !== null ? content.toString() : '-';
+    const labelStyle = contentString.length > 2 ? { fontSize: 13 } : { fontSize: 15 };
 
     return (
         <View>
             <Avatar.Text
-                label={content.toString()}
+                label={contentString}
                 size={40}
                 color={'#FFF'}
                 style={[baseStyle, colorStyle(), conditionalStyle()]}

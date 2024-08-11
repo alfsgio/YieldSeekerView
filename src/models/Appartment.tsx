@@ -19,5 +19,5 @@ export interface Appartment {
     managementTax: number;
     monthlyCost: number;
     yield: number;
-  }
-  
+    avgCityPrice: number;
+}

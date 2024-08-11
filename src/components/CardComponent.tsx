@@ -7,6 +7,7 @@ import BubbleItemComponent from './BubbleItem';
 
 const CardComponent = ( {appart} : {appart : Appartment} ) => {
     const [actualPos, setActualPos] = React.useState(0);
+   
     const handleButtonPress = (photoLinks: Array<String>, direction: String) => {
         switch(direction){
             case 'left':
@@ -21,16 +22,15 @@ const CardComponent = ( {appart} : {appart : Appartment} ) => {
     };
                 
     const navigation = useNavigation();
-    const navigateToDetails = ({appart}) => { navigation.navigate('Details', { appart : appart }); }
-
+    const navigateToDetails = ({ appart }: { appart: Appartment }) => { navigation.navigate('Details', { appart }); }
     return (
-        <TouchableOpacity onPress={() => navigateToDetails({appart})}>
+        <TouchableOpacity onPress={() => navigateToDetails({ appart })}>
             <Card style={style.card}>
                 <View style={style.card.cover.container}>
                     <Card.Cover style={style.card.cover} source={{ uri: appart.photoLinks[actualPos] }} />
                     <View style={style.card.buttons.container}>
                         <IconButton
-                            icon="arrow-left-drop-circle" 
+                            icon="arrow-left-drop-circle"
                             style={[style.card.buttons.arrow, style.card.buttons.arrow.left]}
                             iconColor={"#FFF"}
                             size={35}
@@ -43,17 +43,16 @@ const CardComponent = ( {appart} : {appart : Appartment} ) => {
                             size={35}
                             onPress={() => handleButtonPress(appart.photoLinks, 'right')}>
                         </IconButton>
-                    </View> 
+                    </View>
                 </View>
                 <Card.Content style={style.card.content}>
-                    <BubbleItemComponent content={appart.yield} pos={1} type='yield'/>
+                    <BubbleItemComponent content={appart.yield.toFixed(2)} pos={1} type='yield'/>
                     <Text style={style.card.content.title}>{appart.postalCode.toString().substring(0, 2)} {appart.city} - {appart.surfaceArea} m²</Text>
-                    <BubbleItemComponent content={appart.score} pos={2} type='score'/>
+                    <BubbleItemComponent content={appart.score.toFixed(2)} pos={2} type='score'/>
                 </Card.Content>
             </Card>
         </TouchableOpacity>
     );
-    
 }
 
 const style = StyleSheet.create({
